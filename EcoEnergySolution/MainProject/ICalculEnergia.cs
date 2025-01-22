@@ -5,6 +5,6 @@ namespace MainProject
     {
         void ConfigurarParametres();
         float CalcularEnergia();
-        void MostrarInforme();
+        void MostrarInforme(string configParName, float configPar);
     }
 }
