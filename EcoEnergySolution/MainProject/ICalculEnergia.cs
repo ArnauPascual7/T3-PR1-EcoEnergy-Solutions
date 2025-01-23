@@ -3,8 +3,8 @@ namespace MainProject
 {
     public interface ICalculEnergia
     {
-        void ConfigurateParameter(float par);
-        float CalculateEnergy();
-        void ShowReport(string configParName, float configPar);
+        void ConfigurateParameter(double par);
+        double CalculateEnergy();
+        void ShowReport();
     }
 }
