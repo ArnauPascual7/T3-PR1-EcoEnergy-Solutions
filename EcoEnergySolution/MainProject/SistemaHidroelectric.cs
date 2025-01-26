@@ -9,6 +9,7 @@ namespace MainProject
         {
             ConfigParName = "Cabal d'aigua";
         }
+
         public override void ConfigurateParameter(double waterFlow)
         {
             if (waterFlow >= 20)
