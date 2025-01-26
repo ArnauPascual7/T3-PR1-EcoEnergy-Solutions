@@ -3,7 +3,7 @@ namespace MainProject
 {
     public abstract class SistemaEnergia : ICalculEnergia
     {
-        protected string? ConfigParName { get; set; }
+        public string? ConfigParName { get; set; }
 
         public abstract void ConfigurateParameter(double par);
         public abstract double CalculateEnergy();
