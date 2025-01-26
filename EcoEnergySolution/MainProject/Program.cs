@@ -8,26 +8,35 @@
                 "1. Iniciar Simulació\n" +
                 "2. Veure informe de simulacions\n" +
                 "3. Sortir";
+            const string ErrInvalidOption = "El valor introduït no és una opció vàlida";
 
             int mainMenuOption = 0;
 
             Console.WriteLine(MsgMainMenu);
-            PrInpArrow();
-            mainMenuOption = ParseNum(Console.ReadLine());
-
-            switch(mainMenuOption)
+            
+            while (mainMenuOption < 1 || mainMenuOption > 3)
             {
-                case 1:
-                    SimStart();
-                    break;
-                case 2:
-                    SimReport();
-                    break;
-                case 3:
-                    SimExit();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("El valor introduït no és una opció vàlida");
+                PrInpArrow();
+                mainMenuOption = ParseNum(Console.ReadLine());
+
+                if (mainMenuOption != 0)
+                {
+                    switch (mainMenuOption)
+                    {
+                        case 1:
+                            SimStart();
+                            break;
+                        case 2:
+                            SimReport();
+                            break;
+                        case 3:
+                            SimExit();
+                            break;
+                        default:
+                            Console.WriteLine(ErrInvalidOption);
+                            break;
+                    }
+                }
             }
         }
         public static void SimStart()
@@ -109,7 +118,22 @@
         }
         public static int ParseNum(string num)
         {
-            return int.Parse(num);
+            const string ErrFormatException = "El valor introduït no és un número";
+            const string ErrException = "Ha ocorregut un error inesperat";
+
+            try
+            {
+                return int.Parse(num);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine(ErrFormatException);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(ErrException);
+            }
+            return 0;
         }
     }
 }
