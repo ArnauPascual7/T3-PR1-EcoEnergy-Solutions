@@ -4,6 +4,7 @@ namespace MainProject
     public abstract class SistemaEnergia : ICalculEnergia
     {
         public string? ConfigParName { get; set; }
+        public DateTime Date { get; } = DateTime.Now;
 
         public abstract void ConfigurateParameter(double par);
         public abstract double CalculateEnergy();
