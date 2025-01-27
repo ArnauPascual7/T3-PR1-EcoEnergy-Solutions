@@ -4,6 +4,10 @@
     {
         public static void Main(string[] args)
         {
+            DisplayMenu();
+        }
+        public static void DisplayMenu()
+        {
             const string MsgMainMenu =
                 "1. Iniciar Simulació\n" +
                 "2. Veure informe de simulacions\n" +
@@ -12,84 +16,85 @@
             int mainMenuOption = 0;
 
             Console.WriteLine(MsgMainMenu);
-            PrInpArrow();
-            mainMenuOption = ParseNum(Console.ReadLine());
 
-            switch(mainMenuOption)
+            mainMenuOption = MenuOptionReadLoop(1, 3, mainMenuOption);
+
+            switch (mainMenuOption)
             {
                 case 1:
-                    SimStart();
+                    SimSetup();
                     break;
                 case 2:
                     SimReport();
                     break;
-                case 3:
+                default:
                     SimExit();
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException("El valor introduït no és una opció vàlida");
             }
         }
-        public static void SimStart()
+        public static void SimSetup()
         {
             const string MsgSimQuan = "Quantes simulacions vols generar?";
             const string MsgSysSelectMenu = "Quin sistema d'energia vols utilitzar?\n" +
                 "1. Sistema Solar\n" +
                 "2. Sistema Eolic\n" +
                 "3. Sistema Hdroelèctric";
+            const string ErrSimLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
+            const string ErrNegativeSimQuan = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
 
             int simQuan = 0;
             int sysMenuOption = 0;
 
             Console.WriteLine(MsgSimQuan);
-            PrInpArrow();
-            simQuan = ParseNum(Console.ReadLine());
+
+            while (simQuan == 0)
+            {
+                PrInpArrow();
+                simQuan = ParseNumInt(Console.ReadLine());
+
+                if (simQuan > 20) { Console.WriteLine(ErrSimLimit, 20); simQuan = 0;  }
+                else if (simQuan <= 0) { Console.WriteLine(ErrNegativeSimQuan); simQuan = 0; }
+            }
 
             Console.WriteLine(MsgSysSelectMenu);
-            PrInpArrow();
-            sysMenuOption = ParseNum(Console.ReadLine());
+
+            sysMenuOption = MenuOptionReadLoop(1, 3, sysMenuOption);
+
+            SistemaEnergia system;
 
             switch (sysMenuOption)
             {
                 case 1:
-                    SistemaSolarSim();
+                    system = new SistemaSolar();
+                    Simulation(system);
                     break;
                 case 2:
-                    SistemaEolicSim();
+                    system = new SistemaEolic();
+                    Simulation(system);
                     break;
                 case 3:
-                    SistemaHidroelectricSim();
+                    system = new SistemaHidroelectric();
+                    Simulation(system);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("El valor introduït no és una opció vàlida");
+                    SimExit();
+                    break;
             }
         }
-        public static void SistemaSolarSim()
+        public static void Simulation(SistemaEnergia system)
         {
-            const string MsgConfValue = "Introdueix les hores de sol:";
+            const string MsgConfValue = "Introdueix {0}:";
 
-            SistemaSolar sistemaSolar = new SistemaSolar();
-            Console.WriteLine(MsgConfValue);
-            PrInpArrow();
-            sistemaSolar.ConfigurateParameter(ParseNum(Console.ReadLine()));
-        }
-        public static void SistemaEolicSim()
-        {
-            const string MsgConfValue = "Introdueix la velocitat del vent:";
+            double par = 0f;
 
-            SistemaEolic sistemaEolic = new SistemaEolic();
-            Console.WriteLine(MsgConfValue);
-            PrInpArrow();
-            sistemaEolic.ConfigurateParameter(ParseNum(Console.ReadLine()));
-        }
-        public static void SistemaHidroelectricSim()
-        {
-            const string MsgConfValue = "Introdueix el cabal d'aigua:";
+            Console.WriteLine(MsgConfValue, system.ConfigParName);
 
-            SistemaHidroelectric sistemaHidroelectric = new SistemaHidroelectric();
-            Console.WriteLine(MsgConfValue);
-            PrInpArrow();
-            sistemaHidroelectric.ConfigurateParameter(ParseNum(Console.ReadLine()));
+            while (par == 0)
+            {
+                PrInpArrow();
+                par = ParseNumDouble(Console.ReadLine());
+                if (par != 0) { par = TryConfigPar(system, par); }
+            }
         }
         public static void SimReport()
         {
@@ -101,15 +106,88 @@
 
             Console.WriteLine(MsgExit);
         }
+        public static int MenuOptionReadLoop(int minOption, int maxOption, int num)
+        {
+            const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
+
+            while (num < minOption || num > maxOption)
+            {
+                PrInpArrow();
+                num = ParseNumInt(Console.ReadLine());
+
+                if (num != 0 && num < 1 || num > 3)
+                {
+                    Console.WriteLine(ErrInvalidOption);
+                }
+            }
+            return num;
+        }
+        public static double TryConfigPar(SistemaEnergia system, double par)
+        {
+            try
+            {
+                system.ConfigurateParameter(par);
+                return par;
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return 0;
+        }
         public static void PrInpArrow()
         {
             const string InputArrow = "> ";
 
             Console.Write(InputArrow);
         }
-        public static int ParseNum(string num)
+        public static int ParseNumInt(string num)
         {
-            return int.Parse(num);
+            const string ErrFormatException = "EL VALOR INTRODUÏT NO ÉS UN NÚMERO";
+            const string ErrOverflowException = "EL VALOR INTRODUÏT ÉS MASSA GRAN";
+            const string ErrException = "HA OCORREGUT UN ERROR INESPERAT";
+
+            try
+            {
+                return int.Parse(num);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine(ErrFormatException);
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine(ErrOverflowException);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(ErrException);
+            }
+            return 0;
+        }
+        public static double ParseNumDouble(string num)
+        {
+            const string ErrFormatException = "EL VALOR INTRODUÏT NO ÉS UN NÚMERO";
+            const string ErrOverflowException = "EL VALOR INTRODUÏT ÉS MASSA GRAN";
+            const string ErrException = "HA OCORREGUT UN ERROR INESPERAT";
+
+            try
+            {
+                return double.Parse(num);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine(ErrFormatException);
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine(ErrOverflowException);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(ErrException);
+            }
+            return 0f;
         }
     }
 }
