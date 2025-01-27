@@ -3,6 +3,7 @@
     public class Program
     {
         public static int currentSimulation = 0;
+        public static SistemaEnergia[] simulationSet = new SistemaEnergia[0];
         public static void Main(string[] args)
         {
             DisplayMenu();
@@ -23,7 +24,7 @@
             switch (mainMenuOption)
             {
                 case 1:
-                    SistemaEnergia[] simulationSet = currentSimulation == 0 ? new SistemaEnergia[SimQuanSetup()] : default;
+                    if (currentSimulation == 0) { simulationSet = new SistemaEnergia[SimQuanSetup()]; }
                     SimulationSetup(simulationSet);
                     break;
                 case 2:
