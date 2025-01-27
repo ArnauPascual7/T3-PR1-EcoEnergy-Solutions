@@ -3,6 +3,7 @@
     public class Program
     {
         public static int currentSimulation = 0;
+        public static int limitSumulations = 0;
         public static SistemaEnergia[] simulationSet = new SistemaEnergia[0];
         public static void Main(string[] args)
         {
@@ -41,19 +42,17 @@
             const string ErrSimQuanLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
             const string ErrNegativeSimQuan = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
 
-            int simQuan = 0;
-
             Console.WriteLine(MsgSimQuan);
 
-            while (simQuan == 0)
+            while (limitSumulations == 0)
             {
                 PrInpArrow();
-                simQuan = ParseNumInt(Console.ReadLine());
+                limitSumulations = ParseNumInt(Console.ReadLine());
 
-                if (simQuan > 20) { Console.WriteLine(ErrSimQuanLimit, 20); simQuan = 0; }
-                else if (simQuan <= 0) { Console.WriteLine(ErrNegativeSimQuan); simQuan = 0; }
+                if (limitSumulations > 20) { Console.WriteLine(ErrSimQuanLimit, 20); limitSumulations = 0; }
+                else if (limitSumulations <= 0) { Console.WriteLine(ErrNegativeSimQuan); limitSumulations = 0; }
             }
-            return simQuan;
+            return limitSumulations;
         }
         public static void SimulationSetup(SistemaEnergia[] simSet)
         {
