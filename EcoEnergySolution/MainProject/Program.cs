@@ -2,6 +2,8 @@
 {
     public class Program
     {
+        public static int currentSimulation = 0;
+        public static SistemaEnergia[] simSet;
         public static void Main(string[] args)
         {
             DisplayMenu();
@@ -22,28 +24,30 @@
             switch (mainMenuOption)
             {
                 case 1:
-                    SimSetup();
+                    SimulationSetup();
                     break;
                 case 2:
-                    SimReport();
+                    SimulationReport();
                     break;
                 default:
-                    SimExit();
+                    SimulationExit();
                     break;
             }
         }
-        public static void SimSetup()
+        public static void SimulationSetup()
         {
             const string MsgSimQuan = "Quantes simulacions vols generar?";
             const string MsgSysSelectMenu = "Quin sistema d'energia vols utilitzar?\n" +
                 "1. Sistema Solar\n" +
                 "2. Sistema Eolic\n" +
                 "3. Sistema Hdroelèctric";
-            const string ErrSimLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
+            const string ErrSimQuanLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
             const string ErrNegativeSimQuan = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
 
             int simQuan = 0;
             int sysMenuOption = 0;
+
+            currentSimulation += 1;
 
             Console.WriteLine(MsgSimQuan);
 
@@ -52,9 +56,11 @@
                 PrInpArrow();
                 simQuan = ParseNumInt(Console.ReadLine());
 
-                if (simQuan > 20) { Console.WriteLine(ErrSimLimit, 20); simQuan = 0;  }
+                if (simQuan > 20) { Console.WriteLine(ErrSimQuanLimit, 20); simQuan = 0;  }
                 else if (simQuan <= 0) { Console.WriteLine(ErrNegativeSimQuan); simQuan = 0; }
             }
+
+            if (currentSimulation == 1) { SetupSimulationSet(simQuan); }
 
             Console.WriteLine(MsgSysSelectMenu);
 
@@ -66,18 +72,21 @@
             {
                 case 1:
                     system = new SistemaSolar();
+                    SaveSimulation(system);
                     Simulation(system);
                     break;
                 case 2:
                     system = new SistemaEolic();
+                    SaveSimulation(system);
                     Simulation(system);
                     break;
                 case 3:
                     system = new SistemaHidroelectric();
+                    SaveSimulation(system);
                     Simulation(system);
                     break;
                 default:
-                    SimExit();
+                    SimulationExit();
                     break;
             }
         }
@@ -96,15 +105,23 @@
                 if (par != 0) { par = TryConfigPar(system, par); }
             }
         }
-        public static void SimReport()
+        public static void SimulationReport()
         {
             throw new NotImplementedException();
         }
-        public static void SimExit()
+        public static void SimulationExit()
         {
             const string MsgExit = "Fi del programa.";
 
             Console.WriteLine(MsgExit);
+        }
+        public static void SetupSimulationSet(int simulations)
+        {
+            SistemaEnergia[] simSet = new SistemaEnergia[simulations];
+        }
+        public static void SaveSimulation(SistemaEnergia system)
+        {
+            simSet[currentSimulation] = system;
         }
         public static int MenuOptionReadLoop(int minOption, int maxOption, int num)
         {
@@ -115,7 +132,7 @@
                 PrInpArrow();
                 num = ParseNumInt(Console.ReadLine());
 
-                if (num != 0 && num < 1 || num > 3)
+                if (num < 1 || num > 3)
                 {
                     Console.WriteLine(ErrInvalidOption);
                 }
