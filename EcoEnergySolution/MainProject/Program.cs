@@ -107,6 +107,10 @@
                 par = ParseNumDouble(Console.ReadLine());
                 if (par != 0) { par = TryConfigPar(system, par); }
             }
+
+            system.ShowReport();
+
+            DisplayMenu();
         }
         public static void SimulationReport()
         {
