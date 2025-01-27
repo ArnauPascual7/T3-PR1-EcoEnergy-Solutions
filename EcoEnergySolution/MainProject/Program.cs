@@ -12,89 +12,69 @@
                 "1. Iniciar Simulació\n" +
                 "2. Veure informe de simulacions\n" +
                 "3. Sortir";
-            const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
 
             int mainMenuOption = 0;
 
             Console.WriteLine(MsgMainMenu);
 
-            while (mainMenuOption < 1 || mainMenuOption > 3)
-            {
-                PrInpArrow();
-                mainMenuOption = ParseNumInt(Console.ReadLine());
+            mainMenuOption = MenuOptionReadLoop(1, 3, mainMenuOption);
 
-                if (mainMenuOption != 0 && mainMenuOption < 1 || mainMenuOption > 3)
-                {
-                    Console.WriteLine(ErrInvalidOption);
-                }
-            }
             switch (mainMenuOption)
             {
                 case 1:
-                    SimStart();
+                    SimSetup();
                     break;
                 case 2:
                     SimReport();
-                    break;
-                case 3:
-                    SimExit();
                     break;
                 default:
                     SimExit();
                     break;
             }
         }
-        public static void SimStart()
+        public static void SimSetup()
         {
             const string MsgSimQuan = "Quantes simulacions vols generar?";
             const string MsgSysSelectMenu = "Quin sistema d'energia vols utilitzar?\n" +
                 "1. Sistema Solar\n" +
                 "2. Sistema Eolic\n" +
                 "3. Sistema Hdroelèctric";
-            const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
             const string ErrSimLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
+            const string ErrNegativeSimQuan = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
 
             int simQuan = 0;
             int sysMenuOption = 0;
 
             Console.WriteLine(MsgSimQuan);
 
-            while (simQuan > 30)
+            while (simQuan == 0)
             {
                 PrInpArrow();
                 simQuan = ParseNumInt(Console.ReadLine());
 
-                if (simQuan > 20) { Console.WriteLine(ErrSimLimit, 20); }
+                if (simQuan > 20) { Console.WriteLine(ErrSimLimit, 20); simQuan = 0;  }
+                else if (simQuan <= 0) { Console.WriteLine(ErrNegativeSimQuan); simQuan = 0; }
             }
-
-            if (simQuan <= 0) { SimExit(); }
 
             Console.WriteLine(MsgSysSelectMenu);
 
-            while (sysMenuOption < 1 || sysMenuOption > 3)
-            {
-                PrInpArrow();
-                sysMenuOption = ParseNumInt(Console.ReadLine());
+            sysMenuOption = MenuOptionReadLoop(1, 3, sysMenuOption);
 
-                if (sysMenuOption != 0 && sysMenuOption < 1 || sysMenuOption > 3)
-                {
-                    Console.WriteLine(ErrInvalidOption);
-                }
-            }
+            SistemaEnergia system;
 
             switch (sysMenuOption)
             {
                 case 1:
-                    SistemaSolar solarSys = new SistemaSolar();
-                    Simulation(solarSys);
+                    system = new SistemaSolar();
+                    Simulation(system);
                     break;
                 case 2:
-                    SistemaEolic windSys = new SistemaEolic();
-                    Simulation(windSys);
+                    system = new SistemaEolic();
+                    Simulation(system);
                     break;
                 case 3:
-                    SistemaHidroelectric hidroSys = new SistemaHidroelectric();
-                    Simulation(hidroSys);
+                    system = new SistemaHidroelectric();
+                    Simulation(system);
                     break;
                 default:
                     SimExit();
@@ -108,23 +88,12 @@
             double par = 0f;
 
             Console.WriteLine(MsgConfValue, system.ConfigParName);
+
             while (par == 0)
             {
                 PrInpArrow();
-                par = ParseNumInt(Console.ReadLine());
-            }
-
-            TryConfigPar(system, par);
-        }
-        public static void TryConfigPar(SistemaEnergia system, double par)
-        {
-            try
-            {
-                system.ConfigurateParameter(par);
-            }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine(e.Message);
+                par = ParseNumDouble(Console.ReadLine());
+                if (par != 0) { par = TryConfigPar(system, par); }
             }
         }
         public static void SimReport()
@@ -136,6 +105,35 @@
             const string MsgExit = "Fi del programa.";
 
             Console.WriteLine(MsgExit);
+        }
+        public static int MenuOptionReadLoop(int minOption, int maxOption, int num)
+        {
+            const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
+
+            while (num < minOption || num > maxOption)
+            {
+                PrInpArrow();
+                num = ParseNumInt(Console.ReadLine());
+
+                if (num != 0 && num < 1 || num > 3)
+                {
+                    Console.WriteLine(ErrInvalidOption);
+                }
+            }
+            return num;
+        }
+        public static double TryConfigPar(SistemaEnergia system, double par)
+        {
+            try
+            {
+                system.ConfigurateParameter(par);
+                return par;
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return 0;
         }
         public static void PrInpArrow()
         {
