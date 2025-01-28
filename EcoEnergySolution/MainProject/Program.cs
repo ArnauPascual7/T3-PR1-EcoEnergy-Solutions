@@ -1,4 +1,6 @@
-﻿namespace MainProject
+﻿using System;
+using TextManaging;
+namespace MainProject
 {
     public class Program
     {
@@ -53,8 +55,8 @@
 
             while (SimulationLimit == 0)
             {
-                PrInpArrow();
-                SimulationLimit = ParseNumInt(Console.ReadLine());
+                Text.PrInpArrow();
+                SimulationLimit = Text.ParseNumInt(Console.ReadLine());
 
                 if (SimulationLimit > 20) { Console.WriteLine(ErrSimCountLimit, 20); SimulationLimit = 0; }
                 else if (SimulationLimit <= 0) { Console.WriteLine(ErrNegativeSimCount); SimulationLimit = 0; }
@@ -108,8 +110,8 @@
 
             while (parameter == 0d)
             {
-                PrInpArrow();
-                parameter = ParseNumDouble(Console.ReadLine());
+                Text.PrInpArrow();
+                parameter = Text.ParseNumDouble(Console.ReadLine());
                 if (parameter != 0) { parameter = TryConfigPar(system, parameter); }
             }
 
@@ -143,8 +145,8 @@
 
             while (num < min || num > max)
             {
-                PrInpArrow();
-                num = ParseNumInt(Console.ReadLine());
+                Text.PrInpArrow();
+                num = Text.ParseNumInt(Console.ReadLine());
 
                 if (num < 1 || num > 3)
                 {
@@ -163,60 +165,6 @@
             catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
-            }
-            return 0d;
-        }
-        public static void PrInpArrow()
-        {
-            const string InputArrow = "> ";
-
-            Console.Write(InputArrow);
-        }
-        public static int ParseNumInt(string num)
-        {
-            const string ErrFormatException = "EL VALOR INTRODUÏT NO ÉS UN NÚMERO";
-            const string ErrOverflowException = "EL VALOR INTRODUÏT ÉS MASSA GRAN";
-            const string ErrException = "HA OCORREGUT UN ERROR INESPERAT";
-
-            try
-            {
-                return int.Parse(num);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine(ErrFormatException);
-            }
-            catch (OverflowException)
-            {
-                Console.WriteLine(ErrOverflowException);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine(ErrException);
-            }
-            return 0;
-        }
-        public static double ParseNumDouble(string num)
-        {
-            const string ErrFormatException = "EL VALOR INTRODUÏT NO ÉS UN NÚMERO";
-            const string ErrOverflowException = "EL VALOR INTRODUÏT ÉS MASSA GRAN";
-            const string ErrException = "HA OCORREGUT UN ERROR INESPERAT";
-
-            try
-            {
-                return double.Parse(num);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine(ErrFormatException);
-            }
-            catch (OverflowException)
-            {
-                Console.WriteLine(ErrOverflowException);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine(ErrException);
             }
             return 0d;
         }
