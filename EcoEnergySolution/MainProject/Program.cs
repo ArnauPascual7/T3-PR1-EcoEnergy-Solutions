@@ -4,13 +4,20 @@ namespace MainProject
 {
     public class Program
     {
+        // Class Variables
         private static int CurrentSimulation = 0;
         private static int SimulationLimit = 0;
         private static SimulationSet SimSet = new SimulationSet();
+
         public static void Main(string[] args)
         {
             DisplayMenu();
         }
+
+        /// <summary>
+        /// Handles the main menu:
+        /// Displays the menu on the screen, requests a menu option and calls a function depending on the option.
+        /// </summary>
         public static void DisplayMenu()
         {
             const string MsgWelcome = "Benvingut! Aquí podrás fer simulacions de sistemes d'energia.";
@@ -64,6 +71,10 @@ namespace MainProject
                 SimulationExit();
             }
         }
+
+        /// <summary>
+        /// Configure the number of simulations
+        /// </summary>
         public static void SimCountSetup()
         {
             const string MsgSimCount = "Quantes simulacions vols generar?";
@@ -86,6 +97,10 @@ namespace MainProject
             }
             Console.Clear();
         }
+
+        /// <summary>
+        /// Establishes the energy system
+        /// </summary>
         public static void SimulationSetup()
         {
             const string MsgCurrentSimulation = "Simulació actual: {0}";
@@ -129,6 +144,12 @@ namespace MainProject
                     break;
             }
         }
+
+        /// <summary>
+        /// Run the simulation:
+        /// Set the parameter and show the report
+        /// </summary>
+        /// <param name="system"></param>
         public static void Simulation(SistemaEnergia system)
         {
             const string MsgConfValue = "Introdueix {0}:";
@@ -155,6 +176,10 @@ namespace MainProject
 
             DisplayMenu();
         }
+
+        /// <summary>
+        /// Show all simulations in a table
+        /// </summary>
         public static void SimulationReport()
         {
             try
@@ -172,6 +197,10 @@ namespace MainProject
 
             DisplayMenu();
         }
+
+        /// <summary>
+        /// Show all simulations in a table and exit the simulation
+        /// </summary>
         public static void SimulationExit()
         {
             const string MsgExit = "Fi de la simulació - Quantitat de simulacions: {0}";
@@ -188,6 +217,14 @@ namespace MainProject
             Console.WriteLine();
             Console.WriteLine(MsgExit, CurrentSimulation);
         }
+
+        /// <summary>
+        /// Enters a loop until a correct value is entered, and returns it.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="num"></param>
+        /// <returns>Menu Option</returns>
         public static int MenuOptionReadLoop(int min, int max, int num)
         {
             const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
@@ -205,6 +242,13 @@ namespace MainProject
             }
             return num;
         }
+
+        /// <summary>
+        /// Try to configure the system parameter
+        /// </summary>
+        /// <param name="system"></param>
+        /// <param name="par"></param>
+        /// <returns>Parameter if no exception, 0 if exception</returns>
         public static double TryConfigPar(SistemaEnergia system, double par)
         {
             try
