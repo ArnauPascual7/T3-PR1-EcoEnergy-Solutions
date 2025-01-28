@@ -4,9 +4,9 @@ namespace MainProject
 {
     public class Program
     {
-        public static int CurrentSimulation = 0;
-        public static int SimulationLimit = 0;
-        public static SimulationSet SimSet = new SimulationSet();
+        private static int CurrentSimulation = 0;
+        private static int SimulationLimit = 0;
+        private static SimulationSet SimSet = new SimulationSet();
         public static void Main(string[] args)
         {
             DisplayMenu();
@@ -20,6 +20,9 @@ namespace MainProject
                 "2. Veure informe de simulacions\n" +
                 "3. Sortir";
             const string MsgLimitSimReached = "Has arribat al límit de simulacions!";
+
+            const int minMenuOption = 1;
+            const int maxMenuOption = 3;
 
             if (CurrentSimulation < SimulationLimit || CurrentSimulation == 0)
             {
@@ -36,7 +39,7 @@ namespace MainProject
 
                 Console.WriteLine(MsgMainMenu);
 
-                mainMenuOption = MenuOptionReadLoop(1, 3, mainMenuOption);
+                mainMenuOption = MenuOptionReadLoop(minMenuOption, maxMenuOption, mainMenuOption);
                 Console.Clear();
 
                 switch (mainMenuOption)
@@ -67,6 +70,8 @@ namespace MainProject
             const string ErrSimCountLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
             const string ErrNegativeSimCount = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
 
+            const int SimLimit = 20;
+
             Console.WriteLine(MsgSimCount);
 
             while (SimulationLimit == 0)
@@ -74,8 +79,10 @@ namespace MainProject
                 Text.PrInpArrow();
                 SimulationLimit = Text.ParseNumInt(Console.ReadLine());
 
-                if (SimulationLimit > 20) { Console.WriteLine(ErrSimCountLimit, 20); SimulationLimit = 0; }
+                if (SimulationLimit > SimLimit) { Console.WriteLine(ErrSimCountLimit, SimLimit); SimulationLimit = 0; }
                 else if (SimulationLimit <= 0) { Console.WriteLine(ErrNegativeSimCount); SimulationLimit = 0; }
+
+                Console.WriteLine();
             }
             Console.Clear();
         }
@@ -87,13 +94,16 @@ namespace MainProject
                 "2. Sistema Eolic\n" +
                 "3. Sistema Hdroelèctric";
 
+            const int minMenuOption = 1;
+            const int maxMenuOption = 3;
+
             int sysMenuOption = 0;
 
             Console.WriteLine(MsgCurrentSimulation, CurrentSimulation + 1);
             Console.WriteLine();
             Console.WriteLine(MsgSysSelectMenu);
 
-            sysMenuOption = MenuOptionReadLoop(1, 3, sysMenuOption);
+            sysMenuOption = MenuOptionReadLoop(minMenuOption, maxMenuOption, sysMenuOption);
 
             SistemaEnergia system;
 
@@ -132,7 +142,7 @@ namespace MainProject
             {
                 Text.PrInpArrow();
                 parameter = Text.ParseNumDouble(Console.ReadLine());
-                if (parameter != 0) { parameter = TryConfigPar(system, parameter); }
+                if (parameter != 0d) { parameter = TryConfigPar(system, parameter); }
             }
 
             Console.WriteLine();
@@ -187,7 +197,7 @@ namespace MainProject
                 Text.PrInpArrow();
                 num = Text.ParseNumInt(Console.ReadLine());
 
-                if (num < 1 || num > 3)
+                if (num < min || num > max)
                 {
                     Console.WriteLine(ErrInvalidOption);
                     Console.WriteLine();
