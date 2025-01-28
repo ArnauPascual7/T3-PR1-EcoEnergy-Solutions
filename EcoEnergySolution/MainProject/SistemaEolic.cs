@@ -18,7 +18,7 @@ namespace MainProject
             }
             else
             {
-                throw new ArgumentException("La velocitat del vent no pot ser inferior a 5 m/s");
+                throw new ArgumentException("La velocitat del vent no pot ser inferior a 5 m/s!");
             }
         }
         public override double CalculateEnergy()

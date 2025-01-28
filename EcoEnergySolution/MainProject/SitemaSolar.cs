@@ -18,7 +18,7 @@ namespace MainProject
             }
             else
             {
-                throw new ArgumentException("Les hores de sol no poden ser inferiors a 1 hora");
+                throw new ArgumentException("Les hores de sol no poden ser inferiors a 1 hora!");
             }
         }
         public override double CalculateEnergy()

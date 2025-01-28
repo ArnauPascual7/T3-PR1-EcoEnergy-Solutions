@@ -114,7 +114,14 @@
         }
         public static void SimulationReport()
         {
-            throw new NotImplementedException();
+            try
+            {
+                SimSet.ShowSimulationReport();
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
         public static void SimulationExit()
         {
