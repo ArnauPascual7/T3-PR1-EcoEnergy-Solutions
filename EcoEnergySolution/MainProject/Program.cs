@@ -2,9 +2,9 @@
 {
     public class Program
     {
-        public static int currentSimulation = 0;
-        public static int limitSumulations = 0;
-        public static SistemaEnergia[] simulationSet = new SistemaEnergia[0];
+        public static int CurrentSimulation = 0;
+        public static int SimulationLimit = 0;
+        public static SimulationSet SimSet = new SimulationSet();
         public static void Main(string[] args)
         {
             DisplayMenu();
@@ -25,8 +25,8 @@
             switch (mainMenuOption)
             {
                 case 1:
-                    if (currentSimulation == 0) { simulationSet = new SistemaEnergia[SimQuanSetup()]; }
-                    SimulationSetup(simulationSet);
+                    if (CurrentSimulation == 0) { SimSet.InitSimulations(SimCountSetup()); }
+                    SimulationSetup();
                     break;
                 case 2:
                     SimulationReport();
@@ -36,25 +36,25 @@
                     break;
             }
         }
-        public static int SimQuanSetup()
+        public static int SimCountSetup()
         {
-            const string MsgSimQuan = "Quantes simulacions vols generar?";
-            const string ErrSimQuanLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
-            const string ErrNegativeSimQuan = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
+            const string MsgSimCount = "Quantes simulacions vols generar?";
+            const string ErrSimCountLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
+            const string ErrNegativeSimCount = "EL NOMBRE DE SIMULACIONS NO POT SER 0 O INFERIOR";
 
-            Console.WriteLine(MsgSimQuan);
+            Console.WriteLine(MsgSimCount);
 
-            while (limitSumulations == 0)
+            while (SimulationLimit == 0)
             {
                 PrInpArrow();
-                limitSumulations = ParseNumInt(Console.ReadLine());
+                SimulationLimit = ParseNumInt(Console.ReadLine());
 
-                if (limitSumulations > 20) { Console.WriteLine(ErrSimQuanLimit, 20); limitSumulations = 0; }
-                else if (limitSumulations <= 0) { Console.WriteLine(ErrNegativeSimQuan); limitSumulations = 0; }
+                if (SimulationLimit > 20) { Console.WriteLine(ErrSimCountLimit, 20); SimulationLimit = 0; }
+                else if (SimulationLimit <= 0) { Console.WriteLine(ErrNegativeSimCount); SimulationLimit = 0; }
             }
-            return limitSumulations;
+            return SimulationLimit;
         }
-        public static void SimulationSetup(SistemaEnergia[] simSet)
+        public static void SimulationSetup()
         {
             const string MsgSysSelectMenu = "Quin sistema d'energia vols utilitzar?\n" +
                 "1. Sistema Solar\n" +
@@ -62,8 +62,6 @@
                 "3. Sistema Hdroelèctric";
 
             int sysMenuOption = 0;
-
-            currentSimulation += 1;
 
             Console.WriteLine(MsgSysSelectMenu);
 
@@ -75,17 +73,17 @@
             {
                 case 1:
                     system = new SistemaSolar();
-                    simSet[currentSimulation - 1] = system;
+                    SimSet.AddSimulation(system, CurrentSimulation);
                     Simulation(system);
                     break;
                 case 2:
                     system = new SistemaEolic();
-                    simSet[currentSimulation - 1] = system;
+                    SimSet.AddSimulation(system, CurrentSimulation);
                     Simulation(system);
                     break;
                 case 3:
                     system = new SistemaHidroelectric();
-                    simSet[currentSimulation - 1] = system;
+                    SimSet.AddSimulation(system, CurrentSimulation);
                     Simulation(system);
                     break;
                 default:
@@ -97,18 +95,20 @@
         {
             const string MsgConfValue = "Introdueix {0}:";
 
-            double par = 0f;
+            double parameter = 0d;
 
             Console.WriteLine(MsgConfValue, system.ConfigParName);
 
-            while (par == 0)
+            while (parameter == 0d)
             {
                 PrInpArrow();
-                par = ParseNumDouble(Console.ReadLine());
-                if (par != 0) { par = TryConfigPar(system, par); }
+                parameter = ParseNumDouble(Console.ReadLine());
+                if (parameter != 0) { parameter = TryConfigPar(system, parameter); }
             }
 
             system.ShowReport();
+
+            CurrentSimulation++;
 
             DisplayMenu();
         }
@@ -122,11 +122,11 @@
 
             Console.WriteLine(MsgExit);
         }
-        public static int MenuOptionReadLoop(int minOption, int maxOption, int num)
+        public static int MenuOptionReadLoop(int min, int max, int num)
         {
             const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
 
-            while (num < minOption || num > maxOption)
+            while (num < min || num > max)
             {
                 PrInpArrow();
                 num = ParseNumInt(Console.ReadLine());
@@ -149,7 +149,7 @@
             {
                 Console.WriteLine(e.Message);
             }
-            return 0;
+            return 0d;
         }
         public static void PrInpArrow()
         {
@@ -203,7 +203,7 @@
             {
                 Console.WriteLine(ErrException);
             }
-            return 0f;
+            return 0d;
         }
     }
 }
