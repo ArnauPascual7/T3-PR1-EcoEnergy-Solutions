@@ -23,7 +23,7 @@ namespace MainProject
         }
         public override double CalculateEnergy()
         {
-            return Math.Pow(WindVelocity, 3) * 0.2f;
+            return Math.Pow(WindVelocity, 3) * 0.2d;
         }
         public override void ShowReport()
         {

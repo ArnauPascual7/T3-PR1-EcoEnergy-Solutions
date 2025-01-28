@@ -33,7 +33,7 @@ namespace MainProject
             }
             else
             {
-                throw new InvalidOperationException("Encara no s'ha creat cap simulació!");
+                throw new InvalidOperationException("No s'ha creat cap simulació!");
             }
         }
     }

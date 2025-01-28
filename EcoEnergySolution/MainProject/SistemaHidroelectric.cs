@@ -23,7 +23,7 @@ namespace MainProject
         }
         public override double CalculateEnergy()
         {
-            return WaterFlow * 9.8f * 0.8;
+            return WaterFlow * 9.8d * 0.8d;
         }
         public override void ShowReport()
         {
