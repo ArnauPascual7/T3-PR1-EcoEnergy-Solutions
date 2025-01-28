@@ -11,29 +11,36 @@
         }
         public static void DisplayMenu()
         {
-            const string MsgMainMenu =
-                "1. Iniciar Simulació\n" +
-                "2. Veure informe de simulacions\n" +
-                "3. Sortir";
-
-            int mainMenuOption = 0;
-
-            Console.WriteLine(MsgMainMenu);
-
-            mainMenuOption = MenuOptionReadLoop(1, 3, mainMenuOption);
-
-            switch (mainMenuOption)
+            if (CurrentSimulation < SimulationLimit || CurrentSimulation == 0)
             {
-                case 1:
-                    if (CurrentSimulation == 0) { SimSet.InitSimulations(SimCountSetup()); }
-                    SimulationSetup();
-                    break;
-                case 2:
-                    SimulationReport();
-                    break;
-                default:
-                    SimulationExit();
-                    break;
+                const string MsgMainMenu =
+                    "1. Iniciar Simulació\n" +
+                    "2. Veure informe de simulacions\n" +
+                    "3. Sortir";
+
+                int mainMenuOption = 0;
+
+                Console.WriteLine(MsgMainMenu);
+
+                mainMenuOption = MenuOptionReadLoop(1, 3, mainMenuOption);
+
+                switch (mainMenuOption)
+                {
+                    case 1:
+                        if (CurrentSimulation == 0) { SimSet.InitSimulations(SimCountSetup()); }
+                        SimulationSetup();
+                        break;
+                    case 2:
+                        SimulationReport();
+                        break;
+                    default:
+                        SimulationExit();
+                        break;
+                }
+            }
+            else
+            {
+                SimulationExit();
             }
         }
         public static int SimCountSetup()
@@ -125,9 +132,10 @@
         }
         public static void SimulationExit()
         {
-            const string MsgExit = "Fi del programa.";
+            const string MsgExit = "Fi de la simulació - Quantitat de simulacions: {0}";
 
-            Console.WriteLine(MsgExit);
+            SimulationReport();
+            Console.WriteLine(MsgExit, CurrentSimulation);
         }
         public static int MenuOptionReadLoop(int min, int max, int num)
         {
