@@ -13,18 +13,31 @@ namespace MainProject
         }
         public static void DisplayMenu()
         {
+            const string MsgWelcome = "Benvingut! Aquí podrás fer simulacions de sistemes d'energia.";
+            const string MsgMainMenu =
+                "Que vols fer?\n" +
+                "1. Iniciar Simulació\n" +
+                "2. Veure informe de simulacions\n" +
+                "3. Sortir";
+            const string MsgLimitSimReached = "Has arribat al límit de simulacions!";
+
             if (CurrentSimulation < SimulationLimit || CurrentSimulation == 0)
             {
-                const string MsgMainMenu =
-                    "1. Iniciar Simulació\n" +
-                    "2. Veure informe de simulacions\n" +
-                    "3. Sortir";
-
                 int mainMenuOption = 0;
+
+                if (CurrentSimulation == 0)
+                {
+                    Console.WriteLine(MsgWelcome);
+                    Console.WriteLine();
+                    Text.PressEnter();
+
+                    Console.Clear();
+                }
 
                 Console.WriteLine(MsgMainMenu);
 
                 mainMenuOption = MenuOptionReadLoop(1, 3, mainMenuOption);
+                Console.Clear();
 
                 switch (mainMenuOption)
                 {
@@ -42,6 +55,9 @@ namespace MainProject
             }
             else
             {
+                Console.WriteLine(MsgLimitSimReached);
+                Console.WriteLine();
+
                 SimulationExit();
             }
         }
@@ -61,10 +77,12 @@ namespace MainProject
                 if (SimulationLimit > 20) { Console.WriteLine(ErrSimCountLimit, 20); SimulationLimit = 0; }
                 else if (SimulationLimit <= 0) { Console.WriteLine(ErrNegativeSimCount); SimulationLimit = 0; }
             }
+            Console.Clear();
             return SimulationLimit;
         }
         public static void SimulationSetup()
         {
+            const string MsgCurrentSimulation = "Simulació actual: {0}";
             const string MsgSysSelectMenu = "Quin sistema d'energia vols utilitzar?\n" +
                 "1. Sistema Solar\n" +
                 "2. Sistema Eolic\n" +
@@ -72,6 +90,8 @@ namespace MainProject
 
             int sysMenuOption = 0;
 
+            Console.WriteLine(MsgCurrentSimulation, CurrentSimulation + 1);
+            Console.WriteLine();
             Console.WriteLine(MsgSysSelectMenu);
 
             sysMenuOption = MenuOptionReadLoop(1, 3, sysMenuOption);
@@ -106,6 +126,7 @@ namespace MainProject
 
             double parameter = 0d;
 
+            Console.WriteLine();
             Console.WriteLine(MsgConfValue, system.ConfigParName);
 
             while (parameter == 0d)
@@ -115,7 +136,11 @@ namespace MainProject
                 if (parameter != 0) { parameter = TryConfigPar(system, parameter); }
             }
 
+            Console.WriteLine();
             system.ShowReport();
+            Console.WriteLine();
+            Text.PressEnter();
+            Console.Clear();
 
             CurrentSimulation++;
 
@@ -131,12 +156,27 @@ namespace MainProject
             {
                 Console.WriteLine(e.Message);
             }
+
+            Console.WriteLine();
+            Text.PressEnter();
+            Console.Clear();
+
+            DisplayMenu();
         }
         public static void SimulationExit()
         {
             const string MsgExit = "Fi de la simulació - Quantitat de simulacions: {0}";
 
-            SimulationReport();
+            try
+            {
+                SimSet.ShowSimulationReport();
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.WriteLine();
             Console.WriteLine(MsgExit, CurrentSimulation);
         }
         public static int MenuOptionReadLoop(int min, int max, int num)
@@ -151,6 +191,7 @@ namespace MainProject
                 if (num < 1 || num > 3)
                 {
                     Console.WriteLine(ErrInvalidOption);
+                    Console.WriteLine();
                 }
             }
             return num;
@@ -165,6 +206,7 @@ namespace MainProject
             catch (ArgumentException e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine();
             }
             return 0d;
         }

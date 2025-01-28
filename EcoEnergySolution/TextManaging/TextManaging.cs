@@ -1,4 +1,5 @@
-﻿namespace TextManaging
+﻿using System;
+namespace TextManaging
 {
     public static class Text
     {
@@ -11,6 +12,13 @@
             const string InputArrow = "> ";
 
             Console.Write(InputArrow);
+        }
+        public static void PressEnter()
+        {
+            const string MsgEnterPress = "Prem 'Enter' per continuar";
+
+            Console.Write(MsgEnterPress);
+            Console.ReadLine();
         }
         public static int ParseNumInt(string num)
         {
