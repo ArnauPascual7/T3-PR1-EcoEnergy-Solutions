@@ -248,7 +248,7 @@ namespace MainProject
         /// </summary>
         /// <param name="system"></param>
         /// <param name="par"></param>
-        /// <returns>Parameter if no exception, 0 if exception</returns>
+        /// <returns>Parameter if no Exception, 0 if Exception</returns>
         public static double TryConfigPar(SistemaEnergia system, double par)
         {
             try
