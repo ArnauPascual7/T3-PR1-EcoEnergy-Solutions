@@ -19,6 +19,8 @@ namespace MainProject
         {
             if (simulations is not null)
             {
+                Console.WriteLine($"| {"Informe de Simulacions",45} {"",-20} |");
+                Console.WriteLine(new string('-', 70));
                 Console.WriteLine($"| {"Data",-20} | {"Tipus Sistema",-20} | {"Energia Generada",-20} |");
                 Console.WriteLine(new string('-', 70));
                 foreach (SistemaEnergia sim in simulations)
