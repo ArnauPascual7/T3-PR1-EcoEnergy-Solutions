@@ -3,18 +3,32 @@ namespace MainProject
 {
     public class SimulationSet
     {
+        // Simulations Array
         private SistemaEnergia[] simulations;
 
+        /// <summary>
+        /// Initialize the Array simulations
+        /// </summary>
+        /// <param name="simulationCount">Array Lenght</param>
         public void InitSimulations(int simulationCount)
         {
             simulations = new SistemaEnergia[simulationCount];
         }
 
+        /// <summary>
+        /// Add System to the Array
+        /// </summary>
+        /// <param name="system">System to add</param>
+        /// <param name="position">Array Position</param>
         public void AddSimulation(SistemaEnergia system, int position)
         {
             simulations[position] = system;
         }
 
+        /// <summary>
+        /// Show All Simulations in a table
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Throw when the Array is Null</exception>
         public void ShowSimulationReport()
         {
             if (simulations is not null)
