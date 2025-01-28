@@ -42,7 +42,7 @@ namespace MainProject
                 switch (mainMenuOption)
                 {
                     case 1:
-                        if (CurrentSimulation == 0) { SimSet.InitSimulations(SimCountSetup()); }
+                        if (CurrentSimulation == 0) { SimCountSetup(); SimSet.InitSimulations(SimulationLimit); }
                         SimulationSetup();
                         break;
                     case 2:
@@ -61,7 +61,7 @@ namespace MainProject
                 SimulationExit();
             }
         }
-        public static int SimCountSetup()
+        public static void SimCountSetup()
         {
             const string MsgSimCount = "Quantes simulacions vols generar?";
             const string ErrSimCountLimit = "EL LÍMIT DE SIMULACIÓNS ÉS DE {0}";
@@ -78,7 +78,6 @@ namespace MainProject
                 else if (SimulationLimit <= 0) { Console.WriteLine(ErrNegativeSimCount); SimulationLimit = 0; }
             }
             Console.Clear();
-            return SimulationLimit;
         }
         public static void SimulationSetup()
         {

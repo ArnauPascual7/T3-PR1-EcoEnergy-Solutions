@@ -23,7 +23,7 @@ namespace MainProject
         }
         public override double CalculateEnergy()
         {
-            return SunHours * 1.5f;
+            return SunHours * 1.5d;
         }
         public override void ShowReport()
         {
