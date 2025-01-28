@@ -46,7 +46,7 @@ namespace MainProject
 
                 Console.WriteLine(MsgMainMenu);
 
-                mainMenuOption = MenuOptionReadLoop(minMenuOption, maxMenuOption, mainMenuOption);
+                mainMenuOption = MenuOptionReadLoop(minMenuOption, maxMenuOption);
                 Console.Clear();
 
                 switch (mainMenuOption)
@@ -118,7 +118,7 @@ namespace MainProject
             Console.WriteLine();
             Console.WriteLine(MsgSysSelectMenu);
 
-            sysMenuOption = MenuOptionReadLoop(minMenuOption, maxMenuOption, sysMenuOption);
+            sysMenuOption = MenuOptionReadLoop(minMenuOption, maxMenuOption);
 
             SistemaEnergia system;
 
@@ -149,7 +149,7 @@ namespace MainProject
         /// Run the simulation:
         /// Set the parameter and show the report
         /// </summary>
-        /// <param name="system"></param>
+        /// <param name="system">Current Simulation System</param>
         public static void Simulation(SistemaEnergia system)
         {
             const string MsgConfValue = "Introdueix {0}:";
@@ -221,13 +221,14 @@ namespace MainProject
         /// <summary>
         /// Enters a loop until a correct value is entered, and returns it.
         /// </summary>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <param name="num"></param>
+        /// <param name="min">Min Menu Option</param>
+        /// <param name="max">Max Menu Option</param>
         /// <returns>Menu Option</returns>
-        public static int MenuOptionReadLoop(int min, int max, int num)
+        public static int MenuOptionReadLoop(int min, int max)
         {
             const string ErrInvalidOption = "EL VALOR INTRODUÏT NO ÉS UNA OPCIÓ VÀLIDA";
+
+            int num = 0;
 
             while (num < min || num > max)
             {
@@ -246,8 +247,8 @@ namespace MainProject
         /// <summary>
         /// Try to configure the system parameter
         /// </summary>
-        /// <param name="system"></param>
-        /// <param name="par"></param>
+        /// <param name="system">Current Simulation System</param>
+        /// <param name="par">Parameter to set</param>
         /// <returns>Parameter if no Exception, 0 if Exception</returns>
         public static double TryConfigPar(SistemaEnergia system, double par)
         {
