@@ -4,6 +4,20 @@
 
 Practice Statment -> [T3. PR1. Pràctica 1](https://docs.google.com/document/d/1bN0BW-bYcF3e6OlEpskeBdttGlS6fIVUBbqIXBqyyhY/edit?usp=sharing)
 
+## SonarQube
+
+**SonarQube Cloud Images of the quality comprovation code**:
+
+![](./SonarQubeImg/SonarQube1.jpg)
+
+![](./SonarQubeImg/SonarQube2.jpg)
+
+![](./SonarQubeImg/SonarQube3.jpg)
+
+![](./SonarQubeImg/SonarQube4.jpg)
+
+![](./SonarQubeImg/SonarQube5.jpg)
+
 ## Bibliografia
 
 ### Web Pages
