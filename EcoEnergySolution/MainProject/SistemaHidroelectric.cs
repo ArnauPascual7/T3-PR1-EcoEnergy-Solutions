@@ -18,7 +18,7 @@ namespace MainProject
             }
             else
             {
-                throw new ArgumentException("El cabal d'aigua no pot ser inferior a 20 m^3");
+                throw new ArgumentException("El cabal d'aigua no pot ser inferior a 20 m^3!");
             }
         }
         public override double CalculateEnergy()

@@ -25,9 +25,13 @@ namespace MainProject
                 {
                     if (sim is not null)
                     {
-                        Console.WriteLine($"| {sim.Date,-20} | {sim.GetType(),-20} | {sim.CalculateEnergy(),-20:F2} |");
+                        Console.WriteLine($"| {sim.Date,-20} | {sim.GetType().Name,-20} | {sim.CalculateEnergy(),-20:F2} |");
                     }
                 }
+            }
+            else
+            {
+                throw new InvalidOperationException("Encara no s'ha creat cap simulació!");
             }
         }
     }
