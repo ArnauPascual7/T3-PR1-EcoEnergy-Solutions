@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainProject", "MainProject\MainProject.csproj", "{8BA95A00-640C-40D9-BDD9-4EAB8256B4EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextManaging", "TextManaging\TextManaging.csproj", "{7B5BED6C-A1CA-4B93-902A-B24454A94820}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8BA95A00-640C-40D9-BDD9-4EAB8256B4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BA95A00-640C-40D9-BDD9-4EAB8256B4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BA95A00-640C-40D9-BDD9-4EAB8256B4EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B5BED6C-A1CA-4B93-902A-B24454A94820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B5BED6C-A1CA-4B93-902A-B24454A94820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B5BED6C-A1CA-4B93-902A-B24454A94820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B5BED6C-A1CA-4B93-902A-B24454A94820}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
